@@ -15,6 +15,7 @@ class TipoUsuarioController extends Controller
     public function index()
     {
         //
+        return view('Usuarios.usuario');
     }
 
     /**
@@ -25,6 +26,7 @@ class TipoUsuarioController extends Controller
     public function create()
     {
         //
+        return view('Usuarios.create');
     }
 
     /**
