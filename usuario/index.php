@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CRUD de productos con PHP - MySQL - jQuery AJAX </title>
+    <title>Administrar Usuarios</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
@@ -32,7 +32,7 @@
             <div class='col-sm-4 float-end'>
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control" placeholder="Buscar" id="q" onkeyup="load(1);" />
+                        <input type="text" class="form-control" placeholder="Buscar..." id="q" onkeyup="load(1);" />
                         <span class="input-group-btn">
                             <button class="btn btn-info" type="button" onclick="load(1);">
                                 <span class="bi bi-search"></span>
@@ -56,6 +56,8 @@
     <?php include("html/modal_edit.php"); ?>
     <!-- Delete Modal HTML -->
     <?php include("html/modal_delete.php"); ?>
+    <!--Edit pass-->
+    <?php include("html/modal_pass.php"); ?>
 
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
