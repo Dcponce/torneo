@@ -7,10 +7,10 @@ $action = (isset($_REQUEST['action']) && $_REQUEST['action'] != NULL) ? $_REQUES
 if ($action == 'ajax') {
 	$query = mysqli_real_escape_string($con, (strip_tags($_REQUEST['query'], ENT_QUOTES)));
 
-	$tables = "usuarios u";
-	$campos = "u.id, u.nombre, u.usuario, u.tipoUsuario, t.tipo";
-	$sWhere = "u.nombre LIKE '%" . $query . "%' or u.usuario LIKE '".$query."%'";
-	$sWhere .= " order by u.id";
+	$tables = "arbitro";
+	$campos = "*";
+	$sWhere="nombre LIKE '%".$query."%' or tel LIKE '%".$query."%'";
+	$sWhere .= " order by id";
 
 
 	include '../../pagination.php'; //include pagination file
@@ -28,9 +28,9 @@ if ($action == 'ajax') {
 	}
 	$total_pages = ceil($numrows / $per_page);
 	//main query to fetch the data
-	$query = mysqli_query($con, "SELECT $campos FROM $tables INNER JOIN tipo_usuarios t on u.tipoUsuario = t.id where $sWhere LIMIT $offset,$per_page");
+	$query = mysqli_query($con, "SELECT $campos FROM $tables where $sWhere LIMIT $offset,$per_page");
 	//loop through fetched data
-
+	mysqli_close($con);
 	if ($numrows > 0) {
 
 ?>
@@ -40,31 +40,29 @@ if ($action == 'ajax') {
 					<tr>
 						<th class='text-center'>Id</th>
 						<th>Nombre</th>
-						<th>Usuario</th>
-						<th class='text-center'>Categoría</th>
-						<th colspan="2"></th>
+						<th>Teléfono</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 					$finales = 0;
+					$text_class = "";
 					while ($row = mysqli_fetch_array($query)) {
-						$user_id = $row['id'];
-						$user_nombre = $row['nombre'];
-						$user_u = $row['usuario'];
-						$user_cat = $row['tipo'];
-						$user_tipo = $row['tipoUsuario'];
+						$arbitro_id = $row['id'];
+						$arbitro_nombre = $row['nombre'];
+						$arbitro_tel = $row['tel'];
+
 						$finales++;
 					?>
 						<tr class="<?php echo $text_class; ?>">
-							<td class='text-center'><?php echo $user_id; ?></td>
-							<td><?php echo $user_nombre; ?></td>
-							<td><?php echo $user_u; ?></td>
-							<td class='text-center'><?php echo $user_cat; ?></td>
-							<td colspan="2">
-								<a href="#" class="edit" data-bs-toggle="modal" data-bs-target="#editUsuariotModal" data-nombre='<?php echo $user_nombre; ?>' data-tipo="<?php echo $user_tipo; ?>" data-user='<?php echo $user_u ?>' data-id="<?php echo $user_id; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
-								<a href="#" class="delete" data-bs-toggle="modal" data-bs-target="#deleteUsuarioModal" data-id="<?php echo $user_id; ?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
-								<a href="#" class="modefy" data-bs-toggle="modal" data-bs-target="#editPassModal" data-code="<?php echo $user_id; ?>"><i class="material-icons" data-toggle="tooltip" title="Contraseña">keyboard</i></a>
+							<td class='text-center'><?php echo $arbitro_id; ?></td>
+							<td><?php echo $arbitro_nombre; ?></td>
+							<td><?php echo $arbitro_tel; ?></td>
+							<td>
+								<a href="#" class="edit" data-bs-toggle="modal" data-bs-target="#editArbitrotModal" data-nombre='<?php echo $arbitro_nombre; ?>' data-tel='<?php echo $arbitro_tel; ?>' data-id="<?php echo $arbitro_id; ?>">
+									<i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+								<a href="#" class="delete" data-bs-toggle="modal" data-bs-target="#deleteArbitroModal" data-id="<?php echo $arbitro_id; ?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
 							</td>
 						</tr>
 					<?php } ?>
@@ -82,7 +80,7 @@ if ($action == 'ajax') {
 			</table>
 		</div>
 <?php
-		mysqli_close($con);
+
 	}
 }
 ?>

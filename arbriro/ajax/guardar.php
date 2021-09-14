@@ -1,24 +1,21 @@
 <?php
-if (empty($_POST['user'])) {
-	$errors[] = "Ingresa el usuario.";
-} elseif (!empty($_POST['user'])) {
+if (empty($_POST['nombre'])) {
+	$errors[] = "Ingresa al arbitro.";
+} elseif (!empty($_POST['nombre'])) {
 	require_once("../../conexion.php"); //Contiene funcion que conecta a la base de datos
 	$con = new mysqli(SERVIDOR, USUARIO, CONTRA, BD);
 
 	// escaping, additionally removing everything that could be (html/javascript-) code
-	$user_u = mysqli_real_escape_string($con, (strip_tags($_POST["user"], ENT_QUOTES)));
-	$user_nombre = mysqli_real_escape_string($con, (strip_tags($_POST["nombre"], ENT_QUOTES)));
-	$user_cat = intval($_POST["category"]);
-	$user_pass = mysqli_real_escape_string($con, (strip_tags($_POST["clave"], ENT_QUOTES)));
+	$arbitro_nombre = mysqli_real_escape_string($con, (strip_tags($_POST["nombre"], ENT_QUOTES)));
+	$arbitro_tel = mysqli_real_escape_string($con, (strip_tags($_POST["tel"], ENT_QUOTES)));
 
-	$cifrado= password_hash($user_pass, PASSWORD_DEFAULT);
 
 	// REGISTER data into database
-	$sql = "INSERT INTO usuarios(tipoUsuario, nombre, clave, usuario) VALUES ('$user_cat','$user_nombre','$cifrado','$user_u')";
+	$sql = "INSERT INTO arbitro(nombre, tel) VALUES ('$arbitro_nombre','$arbitro_tel')";
 	$query = mysqli_query($con, $sql);
 	// if product has been added successfully
 	if ($query) {
-		$messages[] = "El usuario ha sido guardado con éxito.";
+		$messages[] = "El arbitro ha sido guardado con éxito.";
 	} else {
 		$errors[] = "Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.";
 	}
